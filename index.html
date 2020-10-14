@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trump's Tweet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;700&family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet"/>
+</head>
+
+<body>
+    <section class="project_container">
+        <h1 class="project_heading"> Since January 2020, Trump Tweeted : </br><span id="Trump-tweet"></span> times</h1>
+        <div class="project_entry">
+            <input type="text" placeholder="Search for a word" id="trump-input"></input>
+            <button id="trump-button">Find</button>
+            <button id="trump-random-button">Random tweet</button>
+        </div>
+        
+
+        <div class="trump_info">
+            <div>search: <span class="trump_search" id="t-search"> </span></div> 
+             <div>#: <span class="trump_nbr" id="t-nbr"> </span></div> 
+             <div>Tweet: <span class="trump_txt" id="t-txt"> </span></div> 
+             <div>Favorite: <span class="trump_favorite" id="t-favorite"> </span></div> 
+             <div>retweet_count: <span class="trump_retweet" id="t-retweet"> </span></div> 
+             <div>is_retweet_count: <span class="trump_isRetweet" id="t-isRetweet"> </span></div> 
+        </div>
+    </section>
+
+    <script src="p5.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
