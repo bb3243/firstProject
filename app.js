@@ -1,6 +1,10 @@
 let trumpData;
+let sizeTrumpData;
+let trumpData2;
+let sizeTrumpData2;
 
 
+// random button
 window.addEventListener('load', function () {
     console.log('page is loaded');
     fetch("Trump2.json")
@@ -21,20 +25,29 @@ window.addEventListener('load', function () {
             let randomNumber = Math.floor(Math.random()*data.length);
 
             //populating the info
+
+            let searchElement = document.getElementById('t-search');
+            searchElement.innerHTML = "<h3>Search:</h3>";
+
             let nbrElement = document.getElementById('t-nbr');
-            nbrElement.innerHTML = randomNumber;
+            nbrElement.innerHTML = "<strong>#:</strong>" + randomNumber;
 
             let txtElement = document.getElementById('t-txt');
-            txtElement.innerHTML = data[randomNumber].text;
+            txtElement.innerHTML = "<strong>Tweet:</strong>" + data[randomNumber].text;
 
             let favoriteElement = document.getElementById('t-favorite');
-            favoriteElement.innerHTML = data[randomNumber].favorite_count;
+            favoriteElement.innerHTML = "<strong>Favorite:</strong> " + data[randomNumber].favorite_count;
 
             let retweetElement = document.getElementById('t-retweet');
-            retweetElement.innerHTML = data[randomNumber].retweet_count;
+            retweetElement.innerHTML = "<strong>Retweet:</strong>" + data[randomNumber].retweet_count;
 
             let isRetweetElement = document.getElementById('t-isRetweet');
-            isRetweetElement.innerHTML = data[randomNumber].is_retweet;
+            let conversion = data[randomNumber].is_retweet;
+            if (conversion == true){
+                isRetweetElement.innerHTML = "<strong>is_retweet_count:</strong> " + "Yes";             
+            }else{
+                isRetweetElement.innerHTML = "<strong>Is retweet:</strong> " + "No"
+            }
         })
 
         .catch(err => {
@@ -60,50 +73,106 @@ window.addEventListener('load', function () {
     
 })
 
+
+// search button
 let button = document.getElementById('trump-button');
 button.addEventListener('click', function() {
-    let inputText = document.getElementById("trump-input").value;
-
+    
     fetch("Trump2.json")
     .then(response => response.json())
     .then(data => {
         console.log("Find button was clicked");
         let inputText = document.getElementById("trump-input").value;
+        let inputText2 = document.getElementById("trump-input2").value;
         console.log(inputText);
-
+        console.log(inputText2);
         let results = [];
-        //console.log(data);
-        for (var i=0 ; i < data.length ; i++)
-                {
-
-                if (data[i].text.includes(inputText)) {
-                    //results.push(data[i].text);
+        let results2 = [];
+        if (inputText)
+        {
+            for (var i=0 ; i < data.length ; i++){
+                if (data[i].text.includes(inputText)){
                     results.push(data[i]);
-                    console.log(results);
-                    //data.list[i].text.find( record => record.name === inputText)
-                    //  let searchElement = document.getElementById('t-search');
-                    //  //searchElement.innerHTML = results.push(data[i].text);
-                    //  searchElement.innerHTML = results;
-                    
-                }                 
+                    console.log(results);                   
+                }  
+            }
+        }
+          
+        if (inputText2)
+        {
+            for (var j=0 ; j < data.length ; j++)
+                    {
+                    if (data[j].text.includes(inputText2)) {
+                        results2.push(data[j]);
+                        console.log(results2);                   
+                    }                 
+            }
         }
         console.log(results.length);
+        console.log(results2.length);
         trumpData = results.length;
+        trumpData2 = results2.length;
     })
 })
 
+
+
+// p5.js code 
 function setup(){
     console.log("Setup!");
-    createCanvas(600,400);
-    background(210,50,50);
+    const myCanvas = createCanvas(600,400);
+    myCanvas.parent("canvas-container");
+    
 
 }
 function draw(){
-    ellipse (300,300,50);
-    if (trumpData){
-        for (let i=0; i< trumpData; i++){
-            ellipse(50 + (50*i), 200, 25);
-        }
+    background(250,250,250);
+
+    // graph
+    stroke(0);
+    strokeWeight(1);
+    line(50, 350, 550, 350);
+
+    let sentenceNumber = 0 ;
+    let sentence = ["0%", "25%", "50%", "75%","100%"];
+
+    for (let j=0; j < 550; j+= 125){
+        stroke(0);
+        strokeWeight(1);
+        line( j + 50, 0, j + 50 , 350);
+        noStroke();
+        fill(0);
+        textSize(15);
+        textFont('Arial');
+        textStyle(NORMAL);
+        text(sentence[sentenceNumber], j + 50 , 375);
+        sentenceNumber +=1;
     }
-  
+
+    // bars
+    //red
+    sizeTrumpData = (trumpData*500) / 8274
+    if (sizeTrumpData){
+        console.log(sizeTrumpData);
+        noStroke();
+        fill(255,0,0);
+        rect(50,50,sizeTrumpData,50)
+        fill(255,0,0);
+        textSize(12);
+        textFont('Arial');
+        text(trumpData, sizeTrumpData + 60, 80);
+    }
+    //blue
+    sizeTrumpData2 = (trumpData2*500) / 8274
+    if (sizeTrumpData2){
+        console.log(sizeTrumpData2);
+        noStroke();
+        fill(0,0,255);
+        rect(50,200,sizeTrumpData2,50)
+        fill(0,0,255);
+        textSize(12);
+        textFont('Arial');
+        text(trumpData2, sizeTrumpData2 + 60, 230);
+    }
+
 }
